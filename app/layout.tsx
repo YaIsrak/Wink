@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/provider/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -21,13 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
           >
             {children}
+            <Toaster richColors />
           </ThemeProvider>
         </body>
       </html>

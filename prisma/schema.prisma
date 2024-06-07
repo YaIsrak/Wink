@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Profile {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  username       String    @unique
+  bio            String?
+  name           String
+  imageUrl       String
+  userId         String
+  posts          Post[]
+  comments       Comment[]
+  likes          Like[]
+  followers      Follower[] @relation("UserFollowers")
+  following      Follower[] @relation("UserFollowing")
+  // sentMessages   Message[] @relation("SentMessages", fields: [id], references: [senderId])
+  // receivedMessages Message[] @relation("ReceivedMessages", fields: [id], references: [receiverId])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  content   String
+  imageUrl  String
+  authorId  String
+  author    Profile      @relation(fields: [authorId], references: [id])
+  comments  Comment[]
+  likes     Like[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  content   String
+  authorId  String
+  author    Profile     @relation(fields: [authorId], references: [id])
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  userId    String
+  user      Profile     @relation(fields: [userId], references: [id])
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+}
+
+model Follower {
+  id         String  @id @default(uuid())
+  followerId String
+  followingId String
+  follower   Profile    @relation("UserFollowers", fields: [followerId], references: [id])
+  following  Profile    @relation("UserFollowing", fields: [followingId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+// model Message {
+//   id         String   @id @default(uuid())
+//   content    String
+//   createdAt  DateTime @default(now())
+//   senderId   String
+//   receiverId String
+//   sender     Profile     @relation("SentMessages", fields: [senderId], references: [id])
+//   receiver   Profile     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+// }
+

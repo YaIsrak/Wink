@@ -1,7 +1,8 @@
 
 export default function page() {
     return (
-        <div>page
+        <div>
+            page
         </div>
     )
 }
