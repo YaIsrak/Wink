@@ -29,13 +29,13 @@ model Profile {
 
 model Post {
   id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
   content   String
-  imageUrl  String
+  imageUrl  String?
   authorId  String
   author    Profile      @relation(fields: [authorId], references: [id])
   comments  Comment[]
   likes     Like[]
+  createdAt DateTime  @default(now())
 }
 
 model Comment {
