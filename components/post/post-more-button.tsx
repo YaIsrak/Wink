@@ -28,7 +28,10 @@ export default function PostMoreButton({ post }: { post: Post }) {
         className="w-56 rounded-xl p-2 shadow-none"
       >
         <DropdownMenuGroup>
-          <DropdownMenuItem className="rounded-xl px-4">
+          <DropdownMenuItem
+            className="rounded-xl px-4"
+            onClick={() => onOpen("editPost", { post })}
+          >
             Edit
             <Edit className="ml-auto h-4 w-4" />
           </DropdownMenuItem>

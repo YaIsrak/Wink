@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CreatePostModal from "../modals/create-post-modal";
 import DeletePostModal from "../modals/delete-post-modal";
+import EditPostModal from "../modals/edit-post-modal";
 
 export default function ModalProvider() {
   const [isMounted, setIsMounted] = useState(false);
@@ -17,6 +18,7 @@ export default function ModalProvider() {
     <>
       <CreatePostModal />
       <DeletePostModal />
+      <EditPostModal />
     </>
   );
 }
