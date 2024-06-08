@@ -7,7 +7,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import PostMoreButton from "./post-more-button";
 
-interface PostCardProps {
+export interface PostCardProps {
   post: Post & { author: Profile };
 }
 
@@ -19,7 +19,7 @@ export default function PostCard({ post }: PostCardProps) {
       </Avatar>
 
       {/* Content */}
-      <div className="space-y-2">
+      <div className="w-full space-y-2">
         {/* Title */}
         <div className="flex items-center gap-2 text-sm">
           <Link
@@ -32,7 +32,7 @@ export default function PostCard({ post }: PostCardProps) {
             {format(post.createdAt)}
           </p>
           <div className="mx-auto"></div>
-          <PostMoreButton />
+          <PostMoreButton post={post} />
         </div>
         {/* Actual Content */}
         <p className="text-sm">{post.content}</p>

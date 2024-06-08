@@ -1,5 +1,7 @@
 "use client";
 
+import { useModal } from "@/hooks/use-modal-store";
+import { Post } from "@prisma/client";
 import { Edit, MoreHorizontal, Tag, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -11,7 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-export default function PostMoreButton() {
+export default function PostMoreButton({ post }: { post: Post }) {
+  const { onOpen } = useModal();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -37,7 +40,10 @@ export default function PostMoreButton() {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem className="rounded-xl px-4 text-destructive">
+          <DropdownMenuItem
+            className="rounded-xl px-4 text-destructive"
+            onClick={() => onOpen("deletePost", { post })}
+          >
             Delete
             <Trash className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
