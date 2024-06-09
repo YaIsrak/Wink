@@ -13,6 +13,9 @@ export default async function MainPage() {
     include: {
       author: true,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return (
@@ -20,9 +23,14 @@ export default async function MainPage() {
       <div className="col-span-4 min-h-screen border-x">
         <PagePostForm />
         {/* Posts */}
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
+
+        {posts.length > 0 ? (
+          posts.map((post) => <PostCard key={post.id} post={post} />)
+        ) : (
+          <div className="py-8 text-center text-muted-foreground">
+            No posts found 😢
+          </div>
+        )}
       </div>
 
       {/* Discution */}

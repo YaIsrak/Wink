@@ -30,7 +30,7 @@ model Profile {
 model Post {
   id        String    @id @default(uuid())
   content   String
-  imageUrl  String?
+  imageUrls  String[]
   authorId  String
   author    Profile      @relation(fields: [authorId], references: [id])
   comments  Comment[]

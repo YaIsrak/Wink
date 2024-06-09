@@ -11,15 +11,18 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { content } = await req.json();
+    const { content, imageUrls } = await req.json();
 
     if (!content) {
       return new NextResponse("Bad Request", { status: 400 });
     }
 
+    console.log(content, imageUrls);
+
     const post = await db.post.create({
       data: {
         content,
+        imageUrls: imageUrls,
         authorId: profile.id,
       },
     });

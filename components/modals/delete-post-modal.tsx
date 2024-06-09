@@ -3,7 +3,9 @@
 import { useModal } from "@/hooks/use-modal-store";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -11,6 +13,7 @@ import { Dialog, DialogContent } from "../ui/dialog";
 export default function DeletePostModal() {
   const router = useRouter();
   const { user } = useUser();
+  const [loading, setLoading] = useState(false);
   const { isOpen, onClose, type, data } = useModal();
 
   const isModalOpen = isOpen && type === "deletePost";
@@ -22,6 +25,7 @@ export default function DeletePostModal() {
 
   const onSubmit = async () => {
     try {
+      setLoading(true);
       await axios.delete(`/api/posts/${post?.id}?userId=${user?.id}`);
       toast.success("Post Deleted");
       router.refresh();
@@ -43,7 +47,8 @@ export default function DeletePostModal() {
           <Button variant={"secondary"} onClick={onClose}>
             Cancel
           </Button>
-          <Button variant={"destructive"} onClick={onSubmit}>
+          <Button disabled={loading} variant={"destructive"} onClick={onSubmit}>
+            {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
             Delete
           </Button>
         </div>

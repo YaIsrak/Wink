@@ -10,7 +10,7 @@ import UserDropdown from "./user-dropdown";
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 w-full border-b bg-background/10 backdrop-blur-sm">
+    <nav className="sticky top-0 z-[10] w-full border-b border-muted bg-background/50 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center gap-4 px-4 md:px-6">
         {/* Navbrand */}
         <Link href={"/"} className="font-mono text-3xl font-bold">
