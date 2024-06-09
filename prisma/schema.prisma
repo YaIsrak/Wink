@@ -32,7 +32,7 @@ model Post {
   content   String
   imageUrls  String[]
   authorId  String
-  author    Profile      @relation(fields: [authorId], references: [id])
+  author    Profile   @relation(fields: [authorId], references: [id])
   comments  Comment[]
   likes     Like[]
   createdAt DateTime  @default(now())

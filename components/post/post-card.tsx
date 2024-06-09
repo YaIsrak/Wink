@@ -1,12 +1,12 @@
 import { Post, Profile } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
-import { IoMdHeartEmpty } from "react-icons/io";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { format } from "timeago.js";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import LikePostButton from "./like-post-button";
 import PostMoreButton from "./post-more-button";
 
 export interface PostCardProps {
@@ -62,14 +62,7 @@ export default function PostCard({ post }: PostCardProps) {
         {/* Footer */}
         <div className="flex items-center">
           {/* HeartIcon */}
-          <Button
-            variant="ghost"
-            size={"sm"}
-            className="space-x-2 rounded-full"
-          >
-            <IoMdHeartEmpty className="h-5 w-5" />
-            <span>0</span>
-          </Button>
+          <LikePostButton postId={post.id} />
 
           {/* Comment Icon */}
           <Button

@@ -19,8 +19,8 @@ export default async function MainPage() {
   });
 
   return (
-    <div className="grid grid-cols-6 gap-2">
-      <div className="col-span-4 min-h-screen border-x">
+    <div className="grid grid-cols-1 gap-2 md:grid-cols-6">
+      <div className="col-span-1 min-h-screen border-x md:col-span-4">
         <PagePostForm />
         {/* Posts */}
 
@@ -34,7 +34,7 @@ export default async function MainPage() {
       </div>
 
       {/* Discution */}
-      <div className="col-span-2"></div>
+      <div className="col-span-2 hidden md:block"></div>
     </div>
   );
 }

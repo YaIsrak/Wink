@@ -9,9 +9,6 @@ export async function DELETE(
 ) {
   try {
     const profile = await currentProfile();
-    const { searchParams } = new URL(req.url);
-
-    const userId = searchParams.get("userId");
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -21,16 +18,9 @@ export async function DELETE(
       return new NextResponse("Post Id is Missing", { status: 400 });
     }
 
-    if (!userId) {
-      return new NextResponse("User Id is Missing", { status: 400 });
-    }
-
     const post = await db.post.delete({
       where: {
         id: params.postId,
-        author: {
-          userId: userId,
-        },
       },
     });
 
