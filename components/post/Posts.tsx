@@ -54,8 +54,6 @@ export default function PostsComponent() {
 
   return (
     <div ref={containerRef}>
-      <pre>{JSON.stringify(data?.pages[0].length, null, 2)}</pre>
-
       {data?.pages[0]?.map((post: PostCardProps) => (
         <PostCard key={post.id} post={post} />
       ))}

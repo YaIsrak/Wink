@@ -1,26 +1,21 @@
-import { db } from "@/prisma/db";
+import { Follower, Profile } from "@prisma/client";
+import { PostCardProps } from "../post/Posts";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import UserPageFunctionalButton from "./user-page-functional-button";
 
+export type ProfilePropsWithFollowerFollowingAndPost = Profile & {
+  followers: Follower[];
+  following: Follower[];
+  posts: PostCardProps[];
+};
+
 export default async function UserProfileInfo({
   profileId,
+  profile,
 }: {
   profileId: string;
+  profile: ProfilePropsWithFollowerFollowingAndPost;
 }) {
-  // Fetch profile
-  const profile = await db.profile.findUnique({
-    where: { id: profileId },
-    include: {
-      followers: true,
-      following: true,
-    },
-  });
-
-  if (!profile) {
-    // Handle the case where the profile is not found
-    return <div>Profile not found</div>;
-  }
-
   return (
     <div className="flex gap-4 border-b p-6">
       {/* Avatar */}

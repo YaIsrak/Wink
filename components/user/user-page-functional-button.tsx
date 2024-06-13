@@ -3,20 +3,15 @@
 import { Button } from "@/components/ui/button";
 import useCurrentUser from "@/hooks/use-current-user";
 import { useModal } from "@/hooks/use-modal-store";
-import { Follower, Profile } from "@prisma/client";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { ProfilePropsWithFollowerFollowingAndPost } from "./user-profile-info";
 
 const whileTap = {
   scale: 0.9,
-};
-
-type ProfilePropsWithFollowersAndFollowing = Profile & {
-  followers: Follower[];
-  following: Follower[];
 };
 
 export default function UserPageFunctionalButton({
@@ -24,7 +19,7 @@ export default function UserPageFunctionalButton({
   profile,
 }: {
   profileId: string;
-  profile: ProfilePropsWithFollowersAndFollowing;
+  profile: ProfilePropsWithFollowerFollowingAndPost;
 }) {
   const router = useRouter();
   const MotionButton = motion(Button);
