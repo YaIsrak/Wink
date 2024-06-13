@@ -1,4 +1,4 @@
-import { Box } from "lucide-react";
+import { Copy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ProfilePropsWithFollowerFollowingAndPost } from "./user-profile-info";
@@ -18,7 +18,7 @@ export default function UserImageGallery({
           className="relative aspect-square"
         >
           {post.imageUrls.length > 1 && (
-            <Box className="absolute left-2 top-2 z-10 text-white" />
+            <Copy className="absolute left-2 top-2 z-10 size-4 text-white" />
           )}
           <Image
             src={post.imageUrls[0]}

@@ -1,6 +1,6 @@
 "use client";
 
-import PostCard from "@/components/post/post-card";
+import PostCard, { LikeProps } from "@/components/post/post-card";
 import { usePostScroll } from "@/hooks/use-post-scroll";
 import { Post, Profile } from "@prisma/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -8,7 +8,10 @@ import axios from "axios";
 import { Loader } from "lucide-react";
 import { ElementRef, useRef } from "react";
 
-export type PostCardProps = Post & { author: Profile };
+export type PostCardProps = Post & {
+  author: Profile;
+  likes: LikeProps[];
+};
 
 export default function PostsComponent() {
   const containerRef = useRef<ElementRef<"div">>(null);

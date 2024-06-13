@@ -34,12 +34,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req:NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    const {searchParams} = new URL(req.url);
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const skip =  (page - 1) * limit;
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const skip = (page - 1) * limit;
     const take = limit;
 
     const profile = await currentProfile();
@@ -53,11 +53,16 @@ export async function GET(req:NextRequest, res: NextResponse) {
       take,
       include: {
         author: true,
+        likes: {
+          include: {
+            user: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
-      }
-    })
+      },
+    });
 
     return NextResponse.json(posts);
   } catch (error: any) {

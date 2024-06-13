@@ -1,12 +1,19 @@
 import UserPagePostTab from "@/components/user/user-page-post-tab";
 import UserProfileInfo from "@/components/user/user-profile-info";
 import { db } from "@/prisma/db";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function UserPage({
   params,
 }: {
   params: { profileId: string };
 }) {
+  const currentUser = await auth();
+  if (!currentUser) {
+    return redirect("/sign-in");
+  }
+
   // Fetching profile
   const profile = await db.profile.findUnique({
     where: {

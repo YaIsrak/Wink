@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoHeart } from "react-icons/io5";
@@ -12,6 +13,7 @@ import { Button } from "../ui/button";
 export default function LikePostButton({ postId }: { postId: string }) {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const router = useRouter();
 
   const MotionButton = motion(Button);
 
@@ -33,6 +35,7 @@ export default function LikePostButton({ postId }: { postId: string }) {
       const res = await axios.post(`/api/posts/${postId}/like`);
       setIsLiked(!isLiked);
       setLikeCount(res.data.likeCount);
+      router.refresh();
     } catch (error: any) {
       toast.error(error.message);
     }

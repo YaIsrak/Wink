@@ -1,4 +1,4 @@
-import { Post, Profile } from "@prisma/client";
+import { Like, Post, Profile } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { IoChatbubbleOutline } from "react-icons/io5";
@@ -9,8 +9,9 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import LikePostButton from "./like-post-button";
 import PostMoreButton from "./post-more-button";
 
+export type LikeProps = Like & { user: Profile };
 export interface PostCardProps {
-  post: Post & { author: Profile };
+  post: Post & { author: Profile; likes: LikeProps[] };
 }
 
 export default function PostCard({ post }: PostCardProps) {
@@ -77,6 +78,18 @@ export default function PostCard({ post }: PostCardProps) {
             </Link>
           </Button>
         </div>
+
+        {post.likes.length !== 0 && (
+          <div className="flex items-center gap-1">
+            <Avatar className="size-4">
+              <AvatarImage src={post.likes[0]?.user.imageUrl} />
+            </Avatar>
+            <p className="text-sm text-muted-foreground">
+              liked by <span>@{post.likes[0]?.user.username}</span>
+              {post.likes.length > 1 && " and others"}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
