@@ -1,7 +1,9 @@
 "use client";
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import useCurrentUser from "@/hooks/use-current-user";
+import { SignOutButton } from "@clerk/nextjs";
 import { LogOut, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { ModeToggle } from "../mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -13,7 +15,7 @@ import {
 } from "../ui/dropdown-menu";
 
 export default function UserDropdown() {
-  const { user } = useUser();
+  const { user } = useCurrentUser();
   const router = useRouter();
 
   return (
@@ -32,13 +34,14 @@ export default function UserDropdown() {
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuGroup>
           {/* Settings Button */}
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
             {/* TODO: */}
             <span>Settings</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <ModeToggle />
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
@@ -47,7 +50,7 @@ export default function UserDropdown() {
         <DropdownMenuGroup>
           {/* Logout Button */}
           <SignOutButton>
-            <DropdownMenuItem className="text-destructive hover:bg-rose-500 hover:text-white">
+            <DropdownMenuItem className="text-rose-500 hover:bg-rose-500 hover:text-white">
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
             </DropdownMenuItem>

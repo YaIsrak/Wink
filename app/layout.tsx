@@ -1,4 +1,5 @@
 import ModalProvider from "@/components/provider/modal-provider";
+import QueryProvider from "@/components/provider/query-provider";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -26,9 +27,11 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="light">
-            {children}
-            <ModalProvider />
-            <Toaster richColors />
+            <QueryProvider>
+              {children}
+              <ModalProvider />
+              <Toaster richColors />
+            </QueryProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -25,7 +25,7 @@ export default function PostCard({ post }: PostCardProps) {
         {/* Title */}
         <div className="flex items-center gap-2 text-sm">
           <Link
-            href={`/user/${post.author.userId}`}
+            href={`/user/${post.author.id}`}
             className="font-medium hover:underline"
           >
             {post.author.username}
@@ -41,7 +41,7 @@ export default function PostCard({ post }: PostCardProps) {
 
         {/* Actual Image */}
         {post.imageUrls.length > 0 && (
-          <ScrollArea className="w-[26rem]">
+          <ScrollArea className="w-[32rem]">
             <div className="flex w-max space-x-4 pb-2">
               {post.imageUrls.map((url) => (
                 <div key={url} className="relative mb-2">
@@ -50,7 +50,7 @@ export default function PostCard({ post }: PostCardProps) {
                     alt={post.id}
                     width={400}
                     height={400}
-                    className="max-h-80 w-full rounded-2xl object-cover"
+                    className="max-h-72 w-full rounded-2xl object-cover"
                   />
                 </div>
               ))}

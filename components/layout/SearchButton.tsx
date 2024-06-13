@@ -1,17 +1,66 @@
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Button } from "../ui/button";
+"use client";
 
-export default function SearchButton() {
+import { Profile } from "@prisma/client";
+import axios from "axios";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+
+export default function SearchButton({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  // eslint-disable-next-line no-unused-vars
+  setOpen: (open: boolean) => void;
+}) {
+  const [users, setUsers] = useState<Profile[]>([]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const res = await axios.get("/api/users");
+      setUsers(res.data);
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
-    <Button
-      variant={"outline"}
-      className="hidden w-12 gap-2 rounded-2xl text-muted-foreground shadow-none md:flex md:w-96"
-      onClick={() => {
-        //   TODO: search
-      }}
-    >
-      <MagnifyingGlassIcon className="h-5 w-5" />
-      <span className="hidden md:block">Search</span>
-    </Button>
+    <>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandInput placeholder="Search..." />
+        <CommandList>
+          <CommandEmpty>
+            <p>No results found.</p>
+          </CommandEmpty>
+
+          <CommandGroup heading="Users">
+            {users.map((user) => (
+              <CommandItem key={user.id}>
+                <Link
+                  href={`/user/${user.userId}`}
+                  className="flex cursor-pointer items-center gap-2 hover:underline"
+                >
+                  <Avatar>
+                    <AvatarImage src={user.imageUrl} />
+                  </Avatar>
+                  <div>
+                    <p>{user.username}</p>
+                  </div>
+                </Link>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
   );
 }

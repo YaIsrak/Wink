@@ -4,11 +4,14 @@ import { cn } from "@/lib/utils";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { IconType } from "react-icons";
+import { Button } from "../ui/button";
 import SearchButton from "./SearchButton";
 import UserDropdown from "./user-dropdown";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
   return (
     <nav className="sticky top-0 z-[10] w-full border-b border-muted bg-background/50 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center gap-4 px-4 md:px-6">
@@ -18,16 +21,24 @@ export default function Navbar() {
         </Link>
 
         {/* Search */}
-        <SearchButton />
+        <Button
+          variant={"outline"}
+          className="hidden w-12 gap-2 rounded-2xl text-muted-foreground shadow-none md:flex md:w-96"
+          onClick={() => setOpen(true)}
+        >
+          <MagnifyingGlassIcon className="h-5 w-5" />
+          <span className="hidden md:block">Search</span>
+        </Button>
+        <SearchButton open={open} setOpen={setOpen} />
 
         <div className="mx-auto"></div>
 
         {/* NavMenu */}
         <div className="flex items-center gap-4">
           <MagnifyingGlassIcon
-            className="h-5 w-5"
+            className="block h-5 w-5 md:hidden"
             onClick={() => {
-              //   TODO: Search
+              setOpen(true);
             }}
           />
           {navbarItems.map((item) => (

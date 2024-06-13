@@ -1,7 +1,11 @@
 import { Post, Profile } from "@prisma/client";
 import { create } from "zustand";
 
-export type ModalType = "createPost" | "deletePost" | "editPost";
+export type ModalType =
+  | "createPost"
+  | "deletePost"
+  | "editPost"
+  | "editProfile";
 
 interface ModalData {
   profile?: Profile;
