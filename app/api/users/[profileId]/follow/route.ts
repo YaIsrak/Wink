@@ -13,6 +13,10 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    if (profile.id === params.profileId) {
+      return new NextResponse("Cannot follow yourself", { status: 400 });
+    }
+
     await prisma?.follower.create({
       data: {
         followerId: params.profileId,
