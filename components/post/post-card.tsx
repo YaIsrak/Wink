@@ -10,8 +10,9 @@ import LikePostButton from "./like-post-button";
 import PostMoreButton from "./post-more-button";
 
 export type LikeProps = Like & { user: Profile };
+
 export interface PostCardProps {
-  post: Post & { author: Profile; likes: LikeProps[] };
+  post: Post & { author: Profile; likes?: LikeProps[] };
 }
 
 export default function PostCard({ post }: PostCardProps) {
@@ -79,7 +80,7 @@ export default function PostCard({ post }: PostCardProps) {
           </Button>
         </div>
 
-        {post.likes.length !== 0 && (
+        {post.likes && post.likes.length !== 0 && (
           <div className="flex items-center gap-1">
             <Avatar className="size-4">
               <AvatarImage src={post.likes[0]?.user.imageUrl} />

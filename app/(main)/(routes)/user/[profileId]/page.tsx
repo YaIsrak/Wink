@@ -4,6 +4,21 @@ import { db } from "@/prisma/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { profileId: string };
+}) {
+  const profile = await db.profile.findUnique({
+    where: { id: params.profileId },
+  });
+
+  return {
+    title: profile?.username,
+    description: profile?.bio,
+  };
+}
+
 export default async function UserPage({
   params,
 }: {
@@ -25,6 +40,11 @@ export default async function UserPage({
       posts: {
         include: {
           author: true,
+          likes: {
+            include: {
+              user: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",

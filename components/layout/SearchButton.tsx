@@ -44,7 +44,7 @@ export default function SearchButton({
 
           <CommandGroup heading="Users">
             {users.map((user) => (
-              <CommandItem key={user.id}>
+              <CommandItem key={user.id} asChild>
                 <Link
                   href={`/user/${user.userId}`}
                   className="flex cursor-pointer items-center gap-2 hover:underline"
