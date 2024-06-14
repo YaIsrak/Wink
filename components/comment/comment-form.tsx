@@ -1,10 +1,10 @@
 "use client";
 
 import { useModal } from "@/hooks/use-modal-store";
-import { PostCardProps } from "../post/Posts";
+import { PostsCardProps } from "../post/Posts";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-export default function CommentForm({ post }: { post: PostCardProps }) {
+export default function CommentForm({ post }: { post: PostsCardProps }) {
   const { onOpen } = useModal();
 
   return (
