@@ -68,7 +68,9 @@ export default async function PostPage({
             </>
           ))
         ) : (
-          <></>
+          <p className="text-center text-sm text-muted-foreground">
+            No comment found
+          </p>
         )}
       </div>
     </div>
