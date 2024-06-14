@@ -1,5 +1,6 @@
 import { ProfilePropsWithFollowerFollowingAndPost } from "../user/user-profile-info";
-import { PostCardProps } from "./Posts";
+import { PostsCardProps } from "./Posts";
+
 import PostCard from "./post-card";
 
 export default function UserPosts({
@@ -9,7 +10,7 @@ export default function UserPosts({
 }) {
   return (
     <div>
-      {profile.posts.map((post: PostCardProps) => (
+      {profile.posts.map((post: PostsCardProps) => (
         <PostCard key={post.id} post={post} />
       ))}
 
