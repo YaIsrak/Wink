@@ -1,12 +1,12 @@
 import { Follower, Profile } from "@prisma/client";
-import { PostCardProps } from "../post/Posts";
+import { PostsCardProps } from "../post/Posts";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import UserPageFunctionalButton from "./user-page-functional-button";
 
 export type ProfilePropsWithFollowerFollowingAndPost = Profile & {
   followers: Follower[];
   following: Follower[];
-  posts: PostCardProps[];
+  posts: PostsCardProps[];
 };
 
 export default async function UserProfileInfo({
