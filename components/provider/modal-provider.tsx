@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import CreateCommentModal from "../modals/create-comment-modal";
 import CreatePostModal from "../modals/create-post-modal";
 import DeletePostModal from "../modals/delete-post-modal";
 import EditPostModal from "../modals/edit-post-modal";
@@ -21,6 +22,7 @@ export default function ModalProvider() {
       <DeletePostModal />
       <EditPostModal />
       <EditProfileModal />
+      <CreateCommentModal />
     </>
   );
 }

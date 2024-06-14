@@ -5,7 +5,8 @@ export type ModalType =
   | "createPost"
   | "deletePost"
   | "editPost"
-  | "editProfile";
+  | "editProfile"
+  | "createComment";
 
 interface ModalData {
   profile?: Profile;

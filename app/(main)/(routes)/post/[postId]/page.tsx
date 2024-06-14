@@ -1,3 +1,4 @@
+import CommentForm from "@/components/comment/comment-form";
 import PostCard from "@/components/post/post-card";
 import { db } from "@/prisma/db";
 
@@ -33,6 +34,7 @@ export default async function PostPage({
   return (
     <div className="min-h-screen border-x">
       <PostCard post={post} />
+      <CommentForm post={post} />
     </div>
   );
 }
