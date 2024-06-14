@@ -31,8 +31,9 @@ const formSchema = z.object({
 export default function CreateCommentModal() {
   const router = useRouter();
   const { user } = useUser();
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const isModalOpen = isOpen && type === "createComment";
+  const { post } = data;
 
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
@@ -50,7 +51,10 @@ export default function CreateCommentModal() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/comments", values);
+      await axios.post("/api/comments", {
+        comment: values.comment,
+        postId: post?.id,
+      });
       toast.success("Posted");
       router.refresh();
       onClose();
