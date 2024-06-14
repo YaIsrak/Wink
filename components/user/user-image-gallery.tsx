@@ -24,6 +24,8 @@ export default function UserImageGallery({
             src={post.imageUrls[0]}
             alt={post.content}
             fill
+            placeholder="blur"
+            blurDataURL="/placeholder.jpg"
             className="object-cover"
           />
         </Link>

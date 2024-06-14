@@ -47,7 +47,7 @@ export default function CreatePostModal() {
     resolver: zodResolver(formSchema),
   });
 
-  const isLoading = form.formState.isSubmitting;
+  let isLoading = form.formState.isSubmitting;
 
   const handleClose = () => {
     form.reset();
@@ -91,6 +91,8 @@ export default function CreatePostModal() {
                           alt={url}
                           width={400}
                           height={400}
+                          blurDataURL="/placeholder.jpg"
+                          placeholder="blur"
                           className="max-h-64 w-full rounded-2xl object-cover"
                         />
                       </div>
@@ -138,8 +140,12 @@ export default function CreatePostModal() {
                               "block",
                               "ut-allowed-content:hidden",
                             )}
+                            onUploadProgress={() => {
+                              isLoading = true;
+                            }}
                             onClientUploadComplete={(res) => {
                               field.onChange(res.map((photo) => photo.url));
+                              isLoading = false;
                             }}
                             onUploadError={(error: Error) => {
                               toast.error(error.message);
