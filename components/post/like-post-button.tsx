@@ -44,7 +44,7 @@ export default function LikePostButton({ postId }: { postId: string }) {
   return (
     <MotionButton
       variant="ghost"
-      size={"sm"}
+      size={"icon"}
       className={cn(
         "space-x-2 rounded-full",
         isLiked ? "text-rose-500 hover:text-rose-500" : "text-primary",
@@ -59,7 +59,6 @@ export default function LikePostButton({ postId }: { postId: string }) {
       ) : (
         <IoMdHeartEmpty className="h-5 w-5" />
       )}
-      <span>{likeCount}</span>
     </MotionButton>
   );
 }

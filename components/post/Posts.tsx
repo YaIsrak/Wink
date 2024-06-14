@@ -2,15 +2,16 @@
 
 import PostCard, { LikeProps } from "@/components/post/post-card";
 import { usePostScroll } from "@/hooks/use-post-scroll";
-import { Post, Profile } from "@prisma/client";
+import { Comment, Post, Profile } from "@prisma/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader } from "lucide-react";
 import { ElementRef, useRef } from "react";
 
-export type PostCardProps = Post & {
+export type PostsCardProps = Post & {
   author: Profile;
   likes: LikeProps[];
+  comments?: Comment[];
 };
 
 export default function PostsComponent() {
@@ -57,8 +58,8 @@ export default function PostsComponent() {
 
   return (
     <div ref={containerRef}>
-      {data?.pages[0]?.map((post: PostCardProps) => (
-        <PostCard key={post.id} post={post} />
+      {data?.pages[0]?.map((post: PostsCardProps) => (
+        <PostCard key={post.id} post={post} comments={post.comments} />
       ))}
 
       {isFetchingNextPage && <div>Loading more posts...</div>}

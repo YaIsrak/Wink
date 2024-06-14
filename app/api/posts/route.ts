@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
@@ -58,6 +58,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
             user: true,
           },
         },
+        comments: true,
       },
       orderBy: {
         createdAt: "desc",

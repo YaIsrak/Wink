@@ -1,4 +1,4 @@
-import { Like, Post, Profile } from "@prisma/client";
+import { Comment, Like, Post, Profile } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { IoChatbubbleOutline } from "react-icons/io5";
@@ -13,9 +13,10 @@ export type LikeProps = Like & { user: Profile };
 
 export interface PostCardProps {
   post: Post & { author: Profile; likes?: LikeProps[] };
+  comments?: Comment[];
 }
 
-export default function PostCard({ post }: PostCardProps) {
+export default function PostCard({ post, comments }: PostCardProps) {
   return (
     <div className="flex gap-4 border-b p-6">
       <Avatar>
@@ -52,6 +53,8 @@ export default function PostCard({ post }: PostCardProps) {
                     alt={post.id}
                     width={400}
                     height={400}
+                    blurDataURL="/placeholder.jpg"
+                    placeholder="blur"
                     className="max-h-72 w-full rounded-2xl object-cover"
                   />
                 </div>
@@ -75,7 +78,7 @@ export default function PostCard({ post }: PostCardProps) {
           >
             <Link href={`/post/${post.id}`}>
               <IoChatbubbleOutline className="h-5 w-5" />
-              <span>0</span>
+              <span>{comments?.length}</span>
             </Link>
           </Button>
         </div>
