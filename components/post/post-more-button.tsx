@@ -51,7 +51,7 @@ export default function PostMoreButton({ post }: { post: Post }) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem
-                className="rounded-xl px-4 text-destructive"
+                className="rounded-xl px-4 text-rose-500"
                 onClick={() => onOpen("deletePost", { post })}
               >
                 Delete

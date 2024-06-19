@@ -18,6 +18,20 @@ export async function DELETE(
       return new NextResponse("Post Id is Missing", { status: 400 });
     }
 
+    // Manually deleting related likes before deleting the post
+    await db.like.deleteMany({
+      where: {
+        postId: params.postId,
+      },
+    });
+
+    // Manually deleting related comments before deleting the post
+    await db.comment.deleteMany({
+      where: {
+        postId: params.postId,
+      },
+    });
+
     const post = await db.post.delete({
       where: {
         id: params.postId,

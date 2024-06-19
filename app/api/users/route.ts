@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { db } from "@/prisma/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
@@ -35,6 +36,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 export async function GET(req: NextRequest) {
   try {
     const users = await db.profile.findMany();

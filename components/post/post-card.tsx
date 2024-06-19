@@ -90,7 +90,7 @@ export default function PostCard({ post, comments }: PostCardProps) {
             </Avatar>
             <p className="text-sm text-muted-foreground">
               liked by <span>@{post.likes[0]?.user.username}</span>
-              {post.likes.length > 1 && " and others"}
+              {post.likes.length > 1 && ` and ${post.likes.length - 1} others`}
             </p>
           </div>
         )}

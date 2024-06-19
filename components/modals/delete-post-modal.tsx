@@ -30,8 +30,10 @@ export default function DeletePostModal() {
       toast.success("Post Deleted");
       router.refresh();
       onClose();
+      setLoading(false);
     } catch (error: any) {
       toast.error(error.message);
+      setLoading(false);
     }
   };
 
