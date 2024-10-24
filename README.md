@@ -27,24 +27,24 @@ The flowchart below shows the application's data flow:
 
 ## Installation
 
-#####Clone the repository:
+1.Clone the repository:
 
 ```bash
 git clone https://github.com/YaIsrak/Wink.git
 ```
 
-#####Install dependencies:
+2.Install dependencies:
 
 ```bash
 npm install
 ```
 
-#####Set up environment variables in `.env`
+3.Set up environment variables in `.env`
 
-#####Start the development server:
+4.Start the development server:
 
 ```bash
 npm run dev
 ```
 
-#####Open the app at `http://localhost:3000`.
+5.Open the app at `http://localhost:3000`.
