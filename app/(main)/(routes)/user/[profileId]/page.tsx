@@ -1,20 +1,20 @@
+import { PostSkeleton, UserInfoSkeleton } from "@/components/CustomSkeleton";
 import UserPagePostTab from "@/components/user/user-page-post-tab";
 import UserProfileInfo from "@/components/user/user-profile-info";
-import { db } from "@/prisma/db";
+import { getUserById } from "@/lib/actions";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export async function generateMetadata({
   params,
 }: {
   params: { profileId: string };
 }) {
-  const profile = await db.profile.findUnique({
-    where: { id: params.profileId },
-  });
+  const profile = await getUserById(params.profileId);
 
   return {
-    title: profile?.username,
+    title: profile?.name,
     description: profile?.bio,
   };
 }
@@ -25,43 +25,27 @@ export default async function UserPage({
   params: { profileId: string };
 }) {
   const currentUser = await auth();
-  if (!currentUser) {
-    return redirect("/sign-in");
-  }
+  if (!currentUser) redirect("/sign-in");
 
-  // Fetching profile
-  const profile = await db.profile.findUnique({
-    where: {
-      id: params.profileId,
-    },
-    include: {
-      followers: true,
-      following: true,
-      posts: {
-        include: {
-          author: true,
-          likes: {
-            include: {
-              user: true,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      },
-    },
-  });
-
-  // Handle in case profile is not found
+  const profile = await getUserById(params.profileId);
   if (!profile) return <div>User not found</div>;
 
   return (
     <div className="min-h-screen border-x">
-      <UserProfileInfo profileId={params.profileId} profile={profile} />
+      <Suspense fallback={<UserInfoSkeleton />}>
+        <UserProfileInfo profileId={params.profileId} profile={profile} />
+      </Suspense>
 
-      {/* Posts */}
-      <UserPagePostTab profile={profile} />
+      <Suspense
+        fallback={
+          <>
+            <PostSkeleton />
+            <PostSkeleton />
+          </>
+        }
+      >
+        <UserPagePostTab profile={profile} />
+      </Suspense>
     </div>
   );
 }

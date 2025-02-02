@@ -6,7 +6,7 @@ import { Comment, Post, Profile } from "@prisma/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ElementRef, useRef } from "react";
-import PostSkeleton from "./PostSkeleton";
+import { PostSkeleton } from "../CustomSkeleton";
 
 export type PostsCardProps = Post & {
   author: Profile;

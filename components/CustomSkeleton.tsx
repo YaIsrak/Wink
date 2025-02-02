@@ -1,6 +1,6 @@
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "./ui/skeleton";
 
-export default function PostSkeleton() {
+export function PostSkeleton() {
   return (
     <div className="flex gap-4 border-b p-6">
       <Skeleton className="h-10 w-10 shrink-0 overflow-hidden rounded-full" />
@@ -51,6 +51,29 @@ export function CommentSkeleton() {
       <Skeleton className="h-4 w-12 md:w-16" />
 
       <Skeleton className="size-6 shrink-0 rounded-full" />
+    </div>
+  );
+}
+
+export function UserInfoSkeleton() {
+  return (
+    <div className="flex gap-4 border-b p-6">
+      {/* Avatar */}
+      <Skeleton className="size-32 shrink-0 rounded-full" />
+
+      {/* Info */}
+      <div className="flex-1 space-y-2 text-sm text-muted-foreground">
+        <Skeleton className="h-6 w-36" />
+        <Skeleton className="h-4 w-16 md:h-6 md:w-20" />
+        <Skeleton className="h-20 w-full" />
+        <div className="flex gap-2">
+          <Skeleton className="h-4 w-12 md:h-6 md:w-16" />
+          <Skeleton className="h-4 w-12 md:h-6 md:w-16" />
+        </div>
+      </div>
+
+      {/* Button */}
+      <Skeleton className="h-8 w-16 rounded-full" />
     </div>
   );
 }

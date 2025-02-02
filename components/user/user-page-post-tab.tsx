@@ -1,16 +1,20 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getPostsByUserId } from "@/lib/actions";
 import { auth } from "@clerk/nextjs/server";
+import { Profile } from "@prisma/client";
 import PagePostForm from "../post/pagePostForm";
 import UserPosts from "../post/user-posts";
 import UserImageGallery from "./user-image-gallery";
-import { ProfilePropsWithFollowerFollowingAndPost } from "./user-profile-info";
 
 export default async function UserPagePostTab({
   profile,
 }: {
-  profile: ProfilePropsWithFollowerFollowingAndPost;
+  profile: Profile;
 }) {
   const user = await auth();
+
+  const posts = await getPostsByUserId(profile.id);
+
   return (
     <Tabs defaultValue="posts" className="w-full">
       <TabsList className="w-full">
@@ -26,11 +30,11 @@ export default async function UserPagePostTab({
         <div className="col-span-1 min-h-screen shrink-0 border-x lg:col-span-4">
           {profile.userId === user.userId && <PagePostForm />}
           {/* <PagePostForm /> */}
-          <UserPosts profile={profile} />
+          <UserPosts posts={posts} />
         </div>
       </TabsContent>
       <TabsContent value="photos">
-        <UserImageGallery profile={profile} />
+        <UserImageGallery posts={posts} />
       </TabsContent>
     </Tabs>
   );

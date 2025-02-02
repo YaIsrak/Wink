@@ -1,7 +1,7 @@
 import CommentForm from "@/components/comment/comment-form";
 import { CommentList } from "@/components/comment/CommentList";
+import { CommentSkeleton, PostSkeleton } from "@/components/CustomSkeleton";
 import PostCard from "@/components/post/post-card";
-import { CommentSkeleton } from "@/components/post/PostSkeleton";
 import { getPostById } from "@/lib/actions";
 import { currentProfile } from "@/lib/current-profile";
 import { notFound, redirect } from "next/navigation";
@@ -20,7 +20,9 @@ export default async function PostPage({
 
   return (
     <div className="min-h-screen border-x">
-      <PostCard post={post} />
+      <Suspense fallback={<PostSkeleton />}>
+        <PostCard post={post} />
+      </Suspense>
       <CommentForm post={post} />
 
       {/* Comments */}

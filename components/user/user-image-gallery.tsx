@@ -1,14 +1,16 @@
+import { Post, Profile } from "@prisma/client";
 import { Copy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ProfilePropsWithFollowerFollowingAndPost } from "./user-profile-info";
+import { LikeProps } from "../post/post-card";
 
 export default function UserImageGallery({
-  profile,
+  posts,
 }: {
-  profile: ProfilePropsWithFollowerFollowingAndPost;
+  posts: (Post & { author: Profile; likes?: LikeProps[] })[];
 }) {
-  const imageArray = profile.posts.filter((post) => post.imageUrls.length > 0);
+  const imageArray = posts.filter((post) => post.imageUrls.length > 0);
+
   return (
     <div className="grid grid-cols-3 gap-1 px-2">
       {imageArray.map((post) => (
