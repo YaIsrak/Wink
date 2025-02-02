@@ -29,7 +29,7 @@ export default function RootLayout({
           <QueryProvider>
             {children}
             <ModalProvider />
-            <Toaster richColors />
+            <Toaster richColors theme="light" />
           </QueryProvider>
         </body>
       </html>

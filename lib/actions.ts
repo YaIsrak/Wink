@@ -49,6 +49,32 @@ export const getPostsByUserId = async (authorId: string) => {
   }
 };
 
+export const getPostsByQuery = async (query: string) => {
+  try {
+    const posts = await db.post.findMany({
+      where: {
+        content: { contains: query, mode: "insensitive" },
+      },
+      include: {
+        author: true,
+        likes: {
+          include: {
+            user: true,
+          },
+        },
+        comments: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return posts;
+  } catch (error) {
+    throw new Error(`Failed to fetch posts ${error}`);
+  }
+};
+
 // info: Comments
 export const getCommentsByPostId = async (postId: string) => {
   try {
@@ -86,5 +112,26 @@ export const getUserById = async (id: string) => {
     return profile;
   } catch (error) {
     throw new Error(`Failed to fetch user ${error}`);
+  }
+};
+
+export const getUsersByQuery = async (query: string) => {
+  try {
+    const users = await db.profile.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { username: { contains: query, mode: "insensitive" } },
+        ],
+      },
+      include: {
+        followers: true,
+        following: true,
+      },
+    });
+
+    return users;
+  } catch (error) {
+    throw new Error(`Failed to fetch users ${error}`);
   }
 };

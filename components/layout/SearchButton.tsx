@@ -1,66 +1,58 @@
 "use client";
 
-import { Profile } from "@prisma/client";
-import axios from "axios";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "../ui/command";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { Dialog, DialogContent } from "../ui/dialog";
+import { Input } from "../ui/input";
 
 export default function SearchButton({
-  open,
+  open = false,
   setOpen,
 }: {
-  open: boolean;
+  open?: boolean;
   // eslint-disable-next-line no-unused-vars
-  setOpen: (open: boolean) => void;
+  setOpen?: (open: boolean) => void;
 }) {
-  const [users, setUsers] = useState<Profile[]>([]);
+  const [query, setQuery] = useState("");
+  const router = useRouter();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const res = await axios.get("/api/users");
-      setUsers(res.data);
-    };
+  const onSearch = (e: React.FormEvent) => {
+    e.preventDefault();
 
-    fetchUserData();
-  }, []);
+    if (query) {
+      router.push(`/search?q=${query}`);
+    }
+
+    if (setOpen) {
+      setOpen(false);
+    }
+    setQuery("");
+  };
 
   return (
     <>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search..." />
-        <CommandList>
-          <CommandEmpty>
-            <p>No results found.</p>
-          </CommandEmpty>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="flex flex-col items-center border-none bg-transparent shadow-none">
+          <h1 className="text-white">Search</h1>
 
-          <CommandGroup heading="Users">
-            {users.map((user) => (
-              <CommandItem key={user.id} asChild>
-                <Link
-                  href={`/user/${user.userId}`}
-                  className="flex cursor-pointer items-center gap-2 hover:underline"
-                >
-                  <Avatar>
-                    <AvatarImage src={user.imageUrl} />
-                  </Avatar>
-                  <div>
-                    <p>{user.username}</p>
-                  </div>
-                </Link>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </CommandList>
-      </CommandDialog>
+          <form
+            onSubmit={onSearch}
+            className="flex w-full flex-row gap-2 rounded-xl bg-background p-6"
+          >
+            <Input
+              placeholder="Search"
+              className="rounded-lg"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <Button size="icon" className="shrink-0 rounded-lg">
+              <MagnifyingGlassIcon />
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

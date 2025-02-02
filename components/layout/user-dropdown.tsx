@@ -29,7 +29,13 @@ export default function UserDropdown() {
       <DropdownMenuContent className="shadow-none">
         <DropdownMenuGroup>
           {/* Profile Button */}
-          <DropdownMenuItem onClick={() => router.push(`/user/${user?.id}`)}>
+          <DropdownMenuItem
+            onClick={() =>
+              router.push(`/user/${user?.id}`, {
+                scroll: false,
+              })
+            }
+          >
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>

@@ -25,6 +25,7 @@ export default function UserPageFunctionalButton({
   const MotionButton = motion(Button);
   const { onOpen } = useModal();
   const { user } = useCurrentUser();
+
   const [isFollowing, setIsFollowing] = useState(
     profile.followers.some((follower) => follower.followerId === user?.id),
   );
@@ -44,8 +45,10 @@ export default function UserPageFunctionalButton({
         toast.success("Unfollowed successfully");
         router.refresh();
       }
-    } catch (error) {
-      toast.error("Failed to follow user");
+    } catch (error: any) {
+      toast.error("Failed to follow user", {
+        description: error.message,
+      });
     }
   };
 
