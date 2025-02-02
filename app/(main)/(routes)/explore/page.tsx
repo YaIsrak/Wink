@@ -1,7 +1,7 @@
+import PagePostForm from "@/components/post/pagePostForm";
 import { currentProfile } from "@/lib/current-profile";
 import { redirect } from "next/navigation";
-import Posts from "../../../components/post/Posts";
-import PagePostForm from "../../../components/post/pagePostForm";
+import Posts from "../../../../components/post/Posts";
 
 export default async function MainPage() {
   const profile = await currentProfile();

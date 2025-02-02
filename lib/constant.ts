@@ -10,7 +10,7 @@ export const navbarItems: {
 }[] = [
   {
     label: "Home",
-    href: "/",
+    href: "/explore",
     icon: GoHome,
     fillIcon: GoHomeFill,
   },

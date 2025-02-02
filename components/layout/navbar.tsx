@@ -1,4 +1,5 @@
 "use client";
+
 import { navbarItems } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
@@ -13,11 +14,15 @@ import UserDropdown from "./user-dropdown";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+
   return (
     <nav className="sticky top-0 z-[10] w-full border-b border-muted bg-background/50 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center gap-4 px-4 md:px-6">
         {/* Navbrand */}
-        <Link href={"/"} className="flex items-center gap-2 text-3xl font-bold">
+        <Link
+          href={"/explore"}
+          className="flex items-center gap-2 text-3xl font-bold"
+        >
           <div className="relative size-8">
             <Image
               src={"/logo-light.png"}

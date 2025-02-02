@@ -18,44 +18,51 @@ export interface PostCardProps {
 
 export default function PostCard({ post, comments }: PostCardProps) {
   return (
-    <div className="flex gap-4 border-b p-6">
+    <div className="relative flex gap-4 overflow-hidden border-b p-6">
       <Avatar>
         <AvatarImage src={post.author.imageUrl} />
       </Avatar>
 
       {/* Content */}
       <div className="w-full space-y-2">
-        {/* Title */}
+        {/* Header */}
         <div className="flex items-center gap-2 text-sm">
+          {/* Username */}
           <Link
             href={`/user/${post.author.id}`}
             className="font-medium hover:underline"
           >
             {post.author.username}
           </Link>
+          {/* Time */}
           <p className="text-xs text-muted-foreground">
             {format(post.createdAt)}
           </p>
-          <div className="mx-auto"></div>
-          <PostMoreButton post={post} />
+
+          <div className="absolute right-4">
+            <PostMoreButton post={post} />
+          </div>
         </div>
         {/* Actual Content */}
         <p className="text-sm">{post.content}</p>
 
         {/* Actual Image */}
         {post.imageUrls.length > 0 && (
-          <ScrollArea className="w-[32rem]">
-            <div className="flex w-max space-x-4 pb-2">
+          <ScrollArea className="relative w-full overflow-hidden">
+            <div className="flex gap-2 overflow-x-auto pb-2">
               {post.imageUrls.map((url) => (
-                <div key={url} className="relative mb-2">
+                <div
+                  key={url}
+                  className="relative h-[250px] w-[200px] flex-shrink-0 overflow-hidden rounded-xl"
+                >
                   <Image
                     src={url}
                     alt={post.id}
-                    width={400}
-                    height={400}
-                    blurDataURL="/placeholder.jpg"
+                    width={200}
+                    height={250}
                     placeholder="blur"
-                    className="max-h-72 w-full rounded-2xl object-cover"
+                    blurDataURL={"/placeholder.jpg"}
+                    className="h-full w-full object-cover"
                   />
                 </div>
               ))}

@@ -5,8 +5,8 @@ import { usePostScroll } from "@/hooks/use-post-scroll";
 import { Comment, Post, Profile } from "@prisma/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Loader } from "lucide-react";
 import { ElementRef, useRef } from "react";
+import PostSkeleton from "./PostSkeleton";
 
 export type PostsCardProps = Post & {
   author: Profile;
@@ -19,7 +19,7 @@ export default function PostsComponent() {
 
   // Fetching post fn
   const fetchPosts = async ({ pageParam = 1 }) => {
-    const res = await axios.get(`/api/posts?page=${pageParam}&limit=10`);
+    const res = await axios.get(`/api/posts?page=${pageParam}&limit=30`);
     return res.data;
   };
 
@@ -49,10 +49,11 @@ export default function PostsComponent() {
 
   if (status === "pending") {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center">
-        <Loader className="my-4 size-4 animate-spin" />
-        <p className="text-xs">Loading...</p>
-      </div>
+      <>
+        <PostSkeleton />
+        <PostSkeleton />
+        <PostSkeleton />
+      </>
     );
   }
 
