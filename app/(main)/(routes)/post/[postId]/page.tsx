@@ -4,7 +4,7 @@ import PostCard from "@/components/post/post-card";
 import { CommentSkeleton } from "@/components/post/PostSkeleton";
 import { getPostById } from "@/lib/actions";
 import { currentProfile } from "@/lib/current-profile";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function PostPage({
@@ -16,15 +16,7 @@ export default async function PostPage({
   if (!profile) redirect("/sign-in");
 
   const post = await getPostById(params.postId);
-
-  // Redirect if post not found
-  if (!post) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Post not found 😢
-      </div>
-    );
-  }
+  if (!post) notFound();
 
   return (
     <div className="min-h-screen border-x">

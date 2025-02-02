@@ -20,8 +20,8 @@ export const getPostById = async (id: string) => {
     });
 
     return post;
-  } catch (error) {
-    throw error;
+  } catch (error: any) {
+    throw new Error(`Failed to fetch post ${error.message}`);
   }
 };
 
@@ -42,6 +42,6 @@ export const getCommentsByPostId = async (postId: string) => {
 
     return comments;
   } catch (error) {
-    throw error;
+    throw new Error(`Failed to fetch comments ${error}`);
   }
 };

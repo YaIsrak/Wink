@@ -1,6 +1,5 @@
 import { IconType } from "react-icons";
 import { GoBell, GoBellFill, GoHome, GoHomeFill } from "react-icons/go";
-import { IoPaperPlane, IoPaperPlaneOutline } from "react-icons/io5";
 
 export const navbarItems: {
   label: string;
@@ -19,11 +18,5 @@ export const navbarItems: {
     href: "/notification",
     icon: GoBell,
     fillIcon: GoBellFill,
-  },
-  {
-    label: "Message",
-    href: "/message",
-    icon: IoPaperPlaneOutline,
-    fillIcon: IoPaperPlane,
   },
 ];

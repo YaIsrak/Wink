@@ -3,7 +3,6 @@ import useCurrentUser from "@/hooks/use-current-user";
 import { SignOutButton } from "@clerk/nextjs";
 import { LogOut, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ModeToggle } from "../mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -39,9 +38,6 @@ export default function UserDropdown() {
             <Settings className="mr-2 h-4 w-4" />
             {/* TODO: */}
             <span>Settings</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <ModeToggle />
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
