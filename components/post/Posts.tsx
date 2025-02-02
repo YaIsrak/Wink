@@ -25,7 +25,12 @@ export default function PostsComponent() {
     queryKey: ["all_posts"],
     queryFn: fetchPosts,
     initialPageParam: 1,
-    getNextPageParam: (lastPage, pages) => pages.length + 1,
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length < 5) {
+        return undefined;
+      }
+      return pages.length + 1;
+    },
   });
 
   useEffect(() => {
