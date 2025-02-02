@@ -1,9 +1,11 @@
-import CommentCard from "@/components/comment/comment-card";
 import CommentForm from "@/components/comment/comment-form";
+import { CommentList } from "@/components/comment/CommentList";
 import PostCard from "@/components/post/post-card";
+import { CommentSkeleton } from "@/components/post/PostSkeleton";
+import { getPostById } from "@/lib/actions";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/prisma/db";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function PostPage({
   params,
@@ -11,23 +13,9 @@ export default async function PostPage({
   params: { postId: string };
 }) {
   const profile = await currentProfile();
-
   if (!profile) redirect("/sign-in");
 
-  // Fetching post
-  const post = await db.post.findUnique({
-    where: {
-      id: params.postId,
-    },
-    include: {
-      author: true,
-      likes: {
-        include: {
-          user: true,
-        },
-      },
-    },
-  });
+  const post = await getPostById(params.postId);
 
   // Redirect if post not found
   if (!post) {
@@ -38,41 +26,23 @@ export default async function PostPage({
     );
   }
 
-  const comments = await db.comment.findMany({
-    where: {
-      postId: post.id,
-    },
-    include: {
-      author: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
   return (
     <div className="min-h-screen border-x">
       <PostCard post={post} />
       <CommentForm post={post} />
 
       {/* Comments */}
-      <div className="space-y-6 p-6">
-        {comments.length > 0 ? (
-          comments?.map((comment) => (
-            <>
-              <CommentCard
-                key={comment.id}
-                comment={comment}
-                author={comment.author}
-              />
-            </>
-          ))
-        ) : (
-          <p className="text-center text-sm text-muted-foreground">
-            No comment found
-          </p>
-        )}
-      </div>
+      <Suspense
+        fallback={
+          <div className="space-y-6 p-6">
+            <CommentSkeleton />
+            <CommentSkeleton />
+            <CommentSkeleton />
+          </div>
+        }
+      >
+        <CommentList postId={post.id} />
+      </Suspense>
     </div>
   );
 }
