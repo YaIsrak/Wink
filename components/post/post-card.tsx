@@ -1,8 +1,8 @@
 import { Comment, Like, Post, Profile } from "@prisma/client";
-import Image from "next/image";
 import Link from "next/link";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { format } from "timeago.js";
+import LinkImage from "../LinkImage";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
@@ -51,20 +51,7 @@ export default function PostCard({ post, comments }: PostCardProps) {
           <ScrollArea className="relative w-full overflow-hidden">
             <div className="flex gap-2 overflow-x-auto pb-2">
               {post.imageUrls.map((url) => (
-                <div
-                  key={url}
-                  className="relative h-[250px] w-[200px] flex-shrink-0 overflow-hidden rounded-xl"
-                >
-                  <Image
-                    src={url}
-                    alt={post.id}
-                    width={200}
-                    height={250}
-                    placeholder="blur"
-                    blurDataURL={"/placeholder.jpg"}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <LinkImage src={url} key={url} />
               ))}
             </div>
             <ScrollBar orientation="horizontal" />
