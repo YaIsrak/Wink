@@ -1,43 +1,32 @@
-import { useEffect, useState } from "react";
-
-type ChatScrollProps = {
-  containerRef: React.RefObject<HTMLDivElement>;
-  shouldLoadMore: boolean;
-  loadMore: () => void;
-};
+import { useEffect } from "react";
 
 export const usePostScroll = ({
   containerRef,
-  shouldLoadMore,
   loadMore,
-}: ChatScrollProps) => {
-  const [hasInitialized, setHasInitialized] = useState(false);
-
+}: {
+  containerRef: any;
+  loadMore: () => void;
+}) => {
   useEffect(() => {
-    const containerDiv = containerRef.current;
+    const onIntersection = (items: IntersectionObserverEntry[]) => {
+      const loaderItem = items[0];
 
-    const handleScroll = () => {
-      if (!containerDiv) return;
-
-      const { scrollTop, scrollHeight, clientHeight } = containerDiv;
-      const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
-
-      // Trigger loadMore when scrolled near the bottom
-      if (distanceFromBottom < 100 && shouldLoadMore) {
+      if (loaderItem.isIntersecting) {
         loadMore();
       }
     };
 
-    containerDiv?.addEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(onIntersection);
 
-    return () => {
-      containerDiv?.removeEventListener("scroll", handleScroll);
-    };
-  }, [shouldLoadMore, loadMore, containerRef]);
-
-  useEffect(() => {
-    if (!hasInitialized && containerRef.current) {
-      setHasInitialized(true);
+    if (observer && containerRef.current) {
+      observer.observe(containerRef.current);
     }
-  }, [containerRef, hasInitialized]);
+
+    // clean up
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, []);
 };
