@@ -1,4 +1,5 @@
 import FollowUser from "@/components/follow/FollowUser";
+import { UsersListSkeleton } from "@/components/search/UserList";
 import { getUserById } from "@/lib/actions";
 import { Suspense } from "react";
 
@@ -20,13 +21,23 @@ export default async function FollowingPage({
 
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
         {user?.following.map((followingUser) => (
-          <Suspense key={followingUser.id}>
+          <Suspense
+            key={followingUser.id}
+            fallback={
+              <>
+                <UsersListSkeleton />
+                <UsersListSkeleton />
+              </>
+            }
+          >
             <FollowUser
               key={followingUser.id}
               userId={followingUser.followerId}
             />
           </Suspense>
         ))}
+
+        {user?.following.length == 0 && <p>No following</p>}
       </div>
     </div>
   );
