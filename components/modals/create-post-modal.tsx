@@ -1,14 +1,15 @@
 "use client";
 
 import { useModal } from "@/hooks/use-modal-store";
-import { UploadButton } from "@/lib/uploadthing";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -22,6 +23,7 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
+import { Input } from "../ui/input";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { Textarea } from "../ui/textarea";
 
@@ -38,6 +40,7 @@ export default function CreatePostModal() {
   const { user } = useUser();
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === "createPost";
+  const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
@@ -54,15 +57,58 @@ export default function CreatePostModal() {
     onClose();
   };
 
+  // info: Upload Image
+  const onUpload = async () => {
+    if (files.length === 0) return [];
+
+    const uploadedUrls: string[] = [];
+
+    // upload every  single file
+    for (const file of files) {
+      // Check file size (20MB = 20 * 1024 * 1024 bytes)
+      if (file.size > 20 * 1024 * 1024) {
+        toast.error("File is too large", {
+          description: `"${file.name}" is too large. Max size: 20MB.`,
+        });
+
+        throw new Error("File is too large");
+      } else {
+        const fileName = `${user?.firstName}-${file.name}-${Date.now()}`;
+        const { data, error } = await supabase.storage
+          .from("images")
+          .upload(fileName, file);
+
+        if (error) {
+          toast.error("Failed to upload image", {
+            description: error.message,
+          });
+          continue;
+        }
+
+        const publicUrl = `${supabase.storage.from("images").getPublicUrl(data.path).data.publicUrl}`;
+        uploadedUrls.push(publicUrl);
+      }
+    }
+
+    return uploadedUrls;
+  };
+
+  // info: Create Post
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/posts", values);
+      const imageUrls = await onUpload();
+      await axios.post("/api/posts", {
+        content: values.content,
+        imageUrls: imageUrls,
+      });
       toast.success("Posted");
       router.refresh();
       onClose();
       form.reset();
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("Something went wrong", {
+        description: error.message,
+      });
     }
   };
 
@@ -132,23 +178,21 @@ export default function CreatePostModal() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <UploadButton
-                            endpoint="postImage"
-                            className={cn(
-                              // buttonVariants({ variant: "ghost" }),
-                              "ut-button:h-8 ut-button:rounded-md ut-button:bg-primary/10 ut-button:px-1 ut-button:text-xs ut-button:text-primary ut-button:ring-0 ut-button:ring-primary",
-                              "block",
-                              "ut-allowed-content:hidden",
-                            )}
-                            onUploadProgress={() => {
-                              isLoading = true;
-                            }}
-                            onClientUploadComplete={(res) => {
-                              field.onChange(res.map((photo) => photo.url));
-                              isLoading = false;
-                            }}
-                            onUploadError={(error: Error) => {
-                              toast.error(error.message);
+                          {/* upload */}
+                          <Input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={(e) => {
+                              const selectedFiles = Array.from(
+                                e.target.files || [],
+                              );
+                              setFiles(selectedFiles);
+                              field.onChange(
+                                selectedFiles.map((file) =>
+                                  URL.createObjectURL(file),
+                                ),
+                              );
                             }}
                           />
                         </FormControl>

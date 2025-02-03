@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/prisma/db";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -26,6 +27,8 @@ export async function POST(req: NextRequest) {
         authorId: profile.id,
       },
     });
+
+    revalidatePath("/explore");
 
     return NextResponse.json(post);
   } catch (error: any) {

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/prisma/db";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -38,6 +39,8 @@ export async function DELETE(
       },
     });
 
+    revalidatePath("/explore");
+
     return NextResponse.json(post);
   } catch (error: any) {
     console.log(error.message);
@@ -65,6 +68,8 @@ export async function PATCH(
         content,
       },
     });
+
+    revalidatePath("/explore");
 
     return NextResponse.json(post);
   } catch (error: any) {
