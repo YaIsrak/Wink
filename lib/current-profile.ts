@@ -10,6 +10,10 @@ export const currentProfile = async () => {
     where: {
       userId,
     },
+    include: {
+      followers: true,
+      following: true,
+    },
   });
 
   return profile;

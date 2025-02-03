@@ -1,11 +1,11 @@
 "use client";
 
-import { Profile } from "@prisma/client";
+import { ProfilePropsWithFollowerFollowingAndPost } from "@/components/user/user-profile-info";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function useCurrentUser() {
-  const [user, setUser] = useState<Profile>();
+  const [user, setUser] = useState<ProfilePropsWithFollowerFollowingAndPost>();
 
   useEffect(() => {
     const fetchUser = async () => {

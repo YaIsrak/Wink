@@ -153,3 +153,20 @@ export const getAllUsers = async () => {
     throw new Error(`Failed to fetch users ${error}`);
   }
 };
+
+// export const getUserFollowingById = async (id: string) => {
+//   try {
+//     const user = await db.profile.findUnique({
+//       where: {
+//         id,
+//       },
+//       include: {
+//         following: true,
+//       },
+//     });
+
+//     return user?.following;
+//   } catch (error) {
+//     throw new Error(`Failed to fetch user following ${error}`);
+//   }
+// };

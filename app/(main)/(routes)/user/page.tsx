@@ -20,7 +20,7 @@ export default async function UsersPage() {
     <div>
       <h1 className="text-3xl font-bold">Users:</h1>
 
-      <div className="mt-6 grid grid-cols-2 gap-2">
+      <div className="mt-6 grid grid-cols-1 gap-2 md:grid-cols-2">
         {users.map((user) => (
           <div key={user.id} className="rounded-2xl border p-4">
             <div className="flex items-center gap-2">

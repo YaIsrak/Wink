@@ -31,13 +31,21 @@ export default function Navbar() {
 
           <SignedOut>
             <div className="flex items-center gap-2">
-              <SignInButton>
+              <SignInButton
+                fallbackRedirectUrl={"/explore"}
+                forceRedirectUrl={"/explore"}
+                signUpFallbackRedirectUrl={"/explore"}
+              >
                 <Button size="sm" className="rounded-lg" variant={"outline"}>
                   Sign in
                 </Button>
               </SignInButton>
 
-              <SignUpButton>
+              <SignUpButton
+                fallbackRedirectUrl={"/explore"}
+                forceRedirectUrl={"/explore"}
+                signInFallbackRedirectUrl={"/explore"}
+              >
                 <Button size="sm" className="rounded-lg">
                   Get Started
                 </Button>

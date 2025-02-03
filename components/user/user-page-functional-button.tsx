@@ -6,7 +6,7 @@ import { useModal } from "@/hooks/use-modal-store";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ProfilePropsWithFollowerFollowingAndPost } from "./user-profile-info";
 
@@ -26,9 +26,19 @@ export default function UserPageFunctionalButton({
   const { onOpen } = useModal();
   const { user } = useCurrentUser();
 
-  const [isFollowing, setIsFollowing] = useState(
-    profile.followers.some((follower) => follower.followerId === user?.id),
-  );
+  const [loading, setLoading] = useState(true);
+
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  useEffect(() => {
+    if (user?.following) {
+      setIsFollowing(
+        user.following.some((follow) => follow.followerId === profileId),
+      );
+    }
+
+    setLoading(false);
+  }, [user, profileId]);
 
   const handleFollow = async () => {
     try {
@@ -57,6 +67,7 @@ export default function UserPageFunctionalButton({
       <MotionButton
         whileTap={whileTap}
         className="rounded-full"
+        disabled={loading}
         onClick={() => onOpen("editProfile", { profile })}
       >
         Edit
@@ -69,9 +80,10 @@ export default function UserPageFunctionalButton({
       whileTap={whileTap}
       variant={isFollowing ? "outline" : "default"}
       className="rounded-full"
+      disabled={loading}
       onClick={handleFollow}
     >
-      {isFollowing ? "Unfollow" : "Follow"}
+      {loading ? "loading" : isFollowing ? "Unfollow" : "Follow"}
     </MotionButton>
   );
 }

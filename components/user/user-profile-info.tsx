@@ -1,4 +1,5 @@
 import { Follower, Profile } from "@prisma/client";
+import Link from "next/link";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import UserPageFunctionalButton from "./user-page-functional-button";
 
@@ -27,18 +28,18 @@ export default async function UserProfileInfo({
         <h3>@{profile.username}</h3>
         <p>{profile.bio}</p>
         <div className="flex gap-2">
-          <p>
+          <Link href={`/user/${profileId}/followers`}>
             <span className="font-semibold text-primary">
               {profile.followers.length}
             </span>{" "}
             Followers
-          </p>
-          <p>
+          </Link>
+          <Link href={`/user/${profileId}/following`}>
             <span className="font-semibold text-primary">
               {profile.following.length}
             </span>{" "}
             Following
-          </p>
+          </Link>
         </div>
       </div>
 
