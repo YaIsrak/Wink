@@ -135,3 +135,21 @@ export const getUsersByQuery = async (query: string) => {
     throw new Error(`Failed to fetch users ${error}`);
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const users = await db.profile.findMany({
+      include: {
+        followers: true,
+        following: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return users;
+  } catch (error) {
+    throw new Error(`Failed to fetch users ${error}`);
+  }
+};
