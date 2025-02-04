@@ -24,7 +24,7 @@ export default function PostsComponent() {
     queryKey: ["all_posts"],
     queryFn: fetchPosts,
     initialPageParam: 1,
-    refetchInterval: 10000,
+    refetchInterval: process.env.NODE_ENV === "development" ? 10000 : 2000,
     getNextPageParam: (lastPage, pages) => {
       if (lastPage.length < 5) {
         return undefined;
