@@ -5,6 +5,7 @@ import { useModal } from "@/hooks/use-modal-store";
 import { supabase } from "@/lib/supabase";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { sendGAEvent } from "@next/third-parties/google";
 import axios from "axios";
 import { Loader } from "lucide-react";
 import Image from "next/image";
@@ -105,6 +106,14 @@ export default function CreatePostModal() {
       router.refresh();
       onClose();
       form.reset();
+      sendGAEvent({
+        event: "Post Created",
+        value: {
+          content: values.content,
+          imageUrls: imageUrls,
+          user: user,
+        },
+      });
     } catch (error: any) {
       toast.error("Something went wrong", {
         description: error.message,

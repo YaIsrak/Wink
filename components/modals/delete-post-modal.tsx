@@ -2,6 +2,7 @@
 
 import { useModal } from "@/hooks/use-modal-store";
 import { useUser } from "@clerk/nextjs";
+import { sendGAEvent } from "@next/third-parties/google";
 import axios from "axios";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -31,6 +32,14 @@ export default function DeletePostModal() {
       router.refresh();
       onClose();
       setLoading(false);
+
+      sendGAEvent({
+        event: "Post Deleted",
+        value: {
+          content: post?.content,
+          user: user,
+        },
+      });
     } catch (error: any) {
       toast.error(error.message);
       setLoading(false);

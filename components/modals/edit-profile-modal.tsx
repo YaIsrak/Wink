@@ -3,6 +3,7 @@
 import { useModal } from "@/hooks/use-modal-store";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { sendGAEvent } from "@next/third-parties/google";
 import axios from "axios";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -78,6 +79,16 @@ export default function EditProfileModal() {
       toast.success("Saved");
       router.refresh();
       onClose();
+
+      sendGAEvent({
+        event: "Profile Updated",
+        value: {
+          name: values.name,
+          username: values.username,
+          bio: values.bio,
+          user: user,
+        },
+      });
     } catch (error: any) {
       toast.error(error.message);
     }

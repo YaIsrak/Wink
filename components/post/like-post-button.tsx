@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { sendGAEvent } from "@next/third-parties/google";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -35,9 +36,18 @@ export default function LikePostButton({ postId }: { postId: string }) {
       const res = await axios.post(`/api/posts/${postId}/like`);
       setIsLiked(!isLiked);
       setLikeCount(res.data.likeCount);
+
+      sendGAEvent({
+        action: "like_post",
+        value: {
+          postId: postId,
+        },
+      });
       router.refresh();
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("Error in liking or disliking post", {
+        description: error.message,
+      });
     }
   };
 

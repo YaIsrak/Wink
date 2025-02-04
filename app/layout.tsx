@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -32,6 +34,12 @@ export default function RootLayout({
             <Toaster richColors theme="light" />
           </QueryProvider>
         </body>
+
+        {process.env.NODE_ENV === "production" && (
+          <GoogleAnalytics
+            gaId={process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID as string}
+          />
+        )}
       </html>
     </ClerkProvider>
   );

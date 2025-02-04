@@ -2,6 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { sendGAEvent } from "@next/third-parties/google";
 import axios from "axios";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -72,6 +73,16 @@ export default function OnBoardingForm() {
       toast.success("Profile created!");
       form.reset();
       router.refresh();
+
+      sendGAEvent({
+        event: "Profile Created",
+        value: {
+          name: values.name,
+          username: values.username,
+          bio: values.bio,
+          user: user,
+        },
+      });
     } catch (error: any) {
       toast.error(error.message);
     }
