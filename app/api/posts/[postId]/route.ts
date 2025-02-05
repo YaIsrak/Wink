@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/prisma/db";
 import { revalidatePath } from "next/cache";
@@ -41,9 +40,12 @@ export async function DELETE(
 
     revalidatePath("/explore");
 
-    return NextResponse.json(post);
+    return NextResponse.json({
+      message: "Post deleted successfully",
+      post,
+    });
   } catch (error: any) {
-    console.log(error.message);
+    console.error(error.message);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
@@ -71,9 +73,12 @@ export async function PATCH(
 
     revalidatePath("/explore");
 
-    return NextResponse.json(post);
+    return NextResponse.json({
+      message: "Post updated successfully",
+      post,
+    });
   } catch (error: any) {
-    console.log(error.message);
+    console.error(error.message);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

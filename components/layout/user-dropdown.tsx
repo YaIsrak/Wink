@@ -1,5 +1,5 @@
 "use client";
-import useCurrentUser from "@/hooks/use-current-user";
+import { useCurrentUserStore } from "@/lib/store";
 import { SignOutButton } from "@clerk/nextjs";
 import { LogOut, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ import {
 } from "../ui/dropdown-menu";
 
 export default function UserDropdown() {
-  const { user } = useCurrentUser();
+  const { user } = useCurrentUserStore();
   const router = useRouter();
 
   return (
@@ -45,9 +45,7 @@ export default function UserDropdown() {
             <span>Settings</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-
         <DropdownMenuSeparator />
-
         <DropdownMenuGroup>
           {/* Logout Button */}
           <SignOutButton>

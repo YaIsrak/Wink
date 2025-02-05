@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/prisma/db";
 import { revalidatePath } from "next/cache";
@@ -18,7 +17,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Bad Request", { status: 400 });
     }
 
-    console.log(content, imageUrls);
+    console.error(content, imageUrls);
 
     const post = await db.post.create({
       data: {
@@ -32,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(post);
   } catch (error: any) {
-    console.log(error.message);
+    console.error(error.message);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
@@ -70,7 +69,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(posts);
   } catch (error: any) {
-    console.log(error.message);
+    console.error(error.message);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

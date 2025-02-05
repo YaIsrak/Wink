@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import useCurrentUser from "@/hooks/use-current-user";
 import { useModal } from "@/hooks/use-modal-store";
+import { useCurrentUserStore } from "@/lib/store";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,7 @@ export default function UserPageFunctionalButton({
   const router = useRouter();
   const MotionButton = motion(Button);
   const { onOpen } = useModal();
-  const { user } = useCurrentUser();
+  const { user } = useCurrentUserStore();
 
   const [loading, setLoading] = useState(true);
 

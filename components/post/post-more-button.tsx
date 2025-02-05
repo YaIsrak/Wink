@@ -1,7 +1,7 @@
 "use client";
 
-import useCurrentUser from "@/hooks/use-current-user";
 import { useModal } from "@/hooks/use-modal-store";
+import { useCurrentUserStore } from "@/lib/store";
 import { Post } from "@prisma/client";
 import { Edit, MoreHorizontal, Tag, Trash } from "lucide-react";
 import { Button } from "../ui/button";
@@ -16,7 +16,7 @@ import {
 
 export default function PostMoreButton({ post }: { post: Post }) {
   const { onOpen } = useModal();
-  const { user } = useCurrentUser();
+  const { user } = useCurrentUserStore();
 
   return (
     <DropdownMenu>

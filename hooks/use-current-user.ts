@@ -1,19 +1,29 @@
-"use client";
-
-import { ProfilePropsWithFollowerFollowingAndPost } from "@/components/user/user-profile-info";
+import { useCurrentUserStore, useNotificationStore } from "@/lib/store";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function useCurrentUser() {
-  const [user, setUser] = useState<ProfilePropsWithFollowerFollowingAndPost>();
+  const { user, setUser } = useCurrentUserStore();
+  const { clearNotifications } = useNotificationStore();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const currentProfile = await axios.get(`/api/users/currentUser`);
-      setUser(currentProfile.data);
+      try {
+        const currentProfile = await axios.get(`/api/users/currentUser`);
+
+        if (user?.id !== currentProfile.data.id) {
+          clearNotifications();
+        }
+        setUser(currentProfile.data);
+      } catch (error: any) {
+        toast.error("Failed to get current user", {
+          description: error.message,
+        });
+      }
     };
     fetchUser();
-  }, []);
+  }, [clearNotifications, setUser, user?.id]);
 
   return { user };
 }

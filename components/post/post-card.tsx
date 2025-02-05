@@ -1,5 +1,7 @@
 import { Comment, Like, Post, Profile } from "@prisma/client";
+import { Loader } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { format } from "timeago.js";
 import LinkImage from "../LinkImage";
@@ -40,7 +42,9 @@ export default function PostCard({ post, comments }: PostCardProps) {
           </p>
 
           <div className="absolute right-4">
-            <PostMoreButton post={post} />
+            <Suspense fallback={<Loader className="size-4 animate-spin" />}>
+              <PostMoreButton post={post} />
+            </Suspense>
           </div>
         </div>
         {/* Actual Content */}

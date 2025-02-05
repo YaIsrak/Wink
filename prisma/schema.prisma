@@ -19,6 +19,7 @@ model Profile {
   posts     Post[]
   comments  Comment[]
   likes     Like[]
+  notifications Notification[]
 
   followers Follower[] @relation("UserFollowers")
   following Follower[] @relation("UserFollowing")
@@ -76,4 +77,14 @@ model Follower {
   following   Profile  @relation("UserFollowing", fields: [followingId], references: [id])
 
   createdAt   DateTime @default(now())
+}
+
+model Notification {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime  @default(now())
+  content   String
+  isRead    Boolean
+
+  authorId  String    @db.ObjectId
+  author    Profile   @relation(fields: [authorId], references: [id])
 }

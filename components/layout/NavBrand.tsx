@@ -3,7 +3,6 @@ import logoLight from "@/public/logo-light.png";
 import Image from "next/image";
 import Link from "next/link";
 
-// todo: import fix
 export default function NavBrand({
   href,
   theme = "light",

@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/prisma/db";
+import { revalidatePath } from "next/cache";
 
 // info: Posts
 export const getPostById = async (id: string) => {
@@ -154,19 +155,24 @@ export const getAllUsers = async () => {
   }
 };
 
-// export const getUserFollowingById = async (id: string) => {
-//   try {
-//     const user = await db.profile.findUnique({
-//       where: {
-//         id,
-//       },
-//       include: {
-//         following: true,
-//       },
-//     });
+// info: notification
+export const markNotificationAsRead = async ({
+  notificationId,
+}: {
+  notificationId: string;
+}) => {
+  try {
+    await db.notification.update({
+      where: {
+        id: notificationId,
+      },
+      data: {
+        isRead: true,
+      },
+    });
 
-//     return user?.following;
-//   } catch (error) {
-//     throw new Error(`Failed to fetch user following ${error}`);
-//   }
-// };
+    revalidatePath("/notification");
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};

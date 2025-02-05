@@ -32,6 +32,14 @@ export async function POST(
           userId: profile.id,
         },
       });
+
+      await db.notification.create({
+        data: {
+          isRead: false,
+          content: `${profile.name} liked your post!`,
+          authorId: profile.id,
+        },
+      });
     }
 
     const likeCount = await db.like.count({
