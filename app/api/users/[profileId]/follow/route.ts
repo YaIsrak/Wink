@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { currentProfile } from "@/lib/current-profile";
+import { db } from "@/prisma/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -21,6 +22,23 @@ export async function POST(
       data: {
         followerId: params.profileId,
         followingId: profile.id,
+      },
+    });
+
+    const follower = await db.profile.findUnique({
+      where: {
+        id: params.profileId,
+      },
+      select: {
+        name: true,
+      },
+    });
+
+    await db.notification.create({
+      data: {
+        isRead: false,
+        content: `${follower?.name} followed you!`,
+        authorId: profile.id,
       },
     });
 

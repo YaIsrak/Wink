@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
-import { useCurrentUserStore } from "@/lib/store";
+import { useCurrentUserStore, useNotificationStore } from "@/lib/store";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,7 @@ export default function UserPageFunctionalButton({
   const MotionButton = motion(Button);
   const { onOpen } = useModal();
   const { user } = useCurrentUserStore();
+  const { clearNotifications } = useNotificationStore();
 
   const [loading, setLoading] = useState(true);
 
@@ -59,6 +60,8 @@ export default function UserPageFunctionalButton({
       toast.error("Failed to follow user", {
         description: error.message,
       });
+    } finally {
+      clearNotifications();
     }
   };
 

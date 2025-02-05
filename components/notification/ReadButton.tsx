@@ -1,5 +1,6 @@
 "use client";
 
+import { useNotificationStore } from "@/lib/store";
 import axios from "axios";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -14,6 +15,7 @@ export default function ReadButton({
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { clearNotifications } = useNotificationStore();
 
   async function handleRead() {
     setLoading(true);
@@ -25,6 +27,7 @@ export default function ReadButton({
         description: error.message,
       });
     } finally {
+      clearNotifications();
       setLoading(false);
     }
   }

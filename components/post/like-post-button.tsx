@@ -1,5 +1,6 @@
 "use client";
 
+import { useNotificationStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { sendGAEvent } from "@next/third-parties/google";
 import axios from "axios";
@@ -14,6 +15,7 @@ import { Button } from "../ui/button";
 export default function LikePostButton({ postId }: { postId: string }) {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const { clearNotifications } = useNotificationStore();
   const router = useRouter();
 
   const MotionButton = motion(Button);
@@ -43,6 +45,8 @@ export default function LikePostButton({ postId }: { postId: string }) {
           postId: postId,
         },
       });
+      clearNotifications();
+
       router.refresh();
     } catch (error: any) {
       toast.error("Error in liking or disliking post", {
