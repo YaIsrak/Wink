@@ -12,7 +12,6 @@ export default function RootLayout({
 }>) {
   return (
     <main className="grid min-h-screen w-full grid-cols-1 md:grid-cols-2">
-      <div className="flex items-center justify-center">{children}</div>
       <div className="hidden flex-col items-start justify-center bg-primary text-white md:flex">
         <div className="mx-auto space-y-2">
           <NavBrand href="/" theme="dark" />
@@ -20,6 +19,7 @@ export default function RootLayout({
           <p>Login to continue</p>
         </div>
       </div>
+      <div className="flex items-center justify-center">{children}</div>
     </main>
   );
 }
