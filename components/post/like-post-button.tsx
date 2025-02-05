@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { sendGAEvent } from "@next/third-parties/google";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoMdHeartEmpty } from "react-icons/io";
@@ -13,6 +14,7 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 export default function LikePostButton({ postId }: { postId: string }) {
+  const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const { clearNotifications } = useNotificationStore();
@@ -27,7 +29,11 @@ export default function LikePostButton({ postId }: { postId: string }) {
         setIsLiked(res.data.isLiked);
         setLikeCount(res.data.likeCount);
       } catch (error: any) {
-        toast.error(error.message);
+        toast.error("Error in fetching like status", {
+          description: error.message,
+        });
+      } finally {
+        setLoading(false);
       }
     };
     fetchLikeStatus();
@@ -59,6 +65,7 @@ export default function LikePostButton({ postId }: { postId: string }) {
     <MotionButton
       variant="ghost"
       size={"icon"}
+      disabled={loading}
       className={cn(
         "space-x-2 rounded-full",
         isLiked ? "text-rose-500 hover:text-rose-500" : "text-primary",
@@ -68,10 +75,16 @@ export default function LikePostButton({ postId }: { postId: string }) {
         scale: 0.9,
       }}
     >
-      {isLiked ? (
-        <IoHeart className="h-5 w-5" />
+      {loading ? (
+        <Loader className="size-4 animate-spin" />
       ) : (
-        <IoMdHeartEmpty className="h-5 w-5" />
+        <>
+          {isLiked ? (
+            <IoHeart className="h-5 w-5" />
+          ) : (
+            <IoMdHeartEmpty className="h-5 w-5" />
+          )}
+        </>
       )}
     </MotionButton>
   );
